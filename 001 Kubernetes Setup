@@ -1,5 +1,15 @@
 # 001 Kubernetes Setup
 
+## Explanation
+
+The Bicep script in this folder, [infrastructure-deploy.bicep](./infrastructure-deploy.bicep) does the following:
+
+1. Sets up an Azure Container registry.
+2. Sets up an Azure Kubernetes cluster.
+3. Sets up pull authorization for the ACR in the AKS Cluster.
+
+This should be all the Azure resources you need for the rest of this hack.
+
 ## Deployment Steps
 
 To deploy the infrastructure-deploy.bicep script in the repository, follow these steps:
@@ -13,13 +23,3 @@ To deploy the infrastructure-deploy.bicep script in the repository, follow these
 4. Wait for the deployment to complete. You can monitor the progress in the command prompt or terminal.
 
 That's it! The `infrastructure-deploy.bicep` script should now be deployed in your desired Azure region.
-
-## Explanation
-
-This Bicep script does the following:
-
-1. Sets up an Azure Container registry.
-2. Sets up an Azure Kubernetes cluster.
-3. Sets up pull authorization for the ACR in the AKS Cluster.
-
-This should be all the Azure resources you need for the rest of this hack.
