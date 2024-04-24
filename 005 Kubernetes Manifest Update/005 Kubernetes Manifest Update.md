@@ -18,7 +18,7 @@ But we can fix that with a new Github Actions workflow. In this step, we will do
     ```yaml
     Update-K8s-Manifests:
         name: Update K8s Deployment Manifest with Image Version
-        needs: BuildPush
+        needs: buildImage
         environment: ${{ inputs.Environment }}
         runs-on: ubuntu-latest
         steps:
