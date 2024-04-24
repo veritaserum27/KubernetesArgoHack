@@ -37,10 +37,10 @@ This hack will take you through:
 
 1. Setting up an AKS cluster
 2. Installing Argo CD on the cluster
-3. Installing an app on the cluster using a helm chart
-4. Monitoring the app
-5. Setting up a GitOps flow
-6. Making a change to the app via a commit, and then watching ArgoCD implement the change
+3. Setting up a Github Actions workflow to build and push images to ACR
+4. Setting up a Kubernetes secret to enable Argo CD access to a private Github repository
+5. Setting up Argo CD to monitor for application changes and keep a cluster in sync
+6. Setting up an Actions workflow to automatically update Kubernetes manifest files when a new container image is pushed
 
 ## Architecture
 
@@ -54,7 +54,7 @@ Data flow:
 2. Code is committed to Github
 3. Github Actions builds a container image and pushes the image to ACR
 4. Github Actions updates a Kubernetes Manifest deployment file with the latest image version based on a version number in ACR
-5. Argo CD pulls from the Git repository
+5. Argo CD monitors the Git repository
 6. Argo CD deploys the newest image to the AKS cluster
 
 ## Contributing
