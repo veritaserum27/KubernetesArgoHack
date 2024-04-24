@@ -3,16 +3,16 @@
 ## Prerequisites
 
 1. Complete [001-Kubernetes Setup](./001%20Kubernetes%20Setup)
-2. Login to AZ CLI
-3. Install Kubectl by running the following:
+2. Install the ArgoCD CLI by following the instructions [here](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+3. Login to AZ CLI
+4. Install Kubectl by running the following:
 
     ```bash
     az aks install-cli
     az aks get-credentials --resource-group <resource-group> --name <aks-cluster-name>
     ```
 
-4. Run `kubectl get nodes` to ensure your nodes are visible
-5. Install the ArgoCD CLI by following the instructions [here](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+5. Run `kubectl get nodes` to ensure your nodes are visible
 
 ## Explanation
 
@@ -22,7 +22,7 @@ Like Terraform, ArgoCD is declarative: Users needs to state what the end state o
 
 One major advantage of ArgoCD over something like Flux is the built-in UI: ArgoCD offers a fairly intensive, full-featured dashboard view to look at different clusters, monitor cluster health, etc.
 
-## ArgoCD installation steps
+## Steps
 
 1. Create a namespace for ArgoCD:
 
@@ -52,7 +52,7 @@ One major advantage of ArgoCD over something like Flux is the built-in UI: ArgoC
     1. Run the following command to patch the `argocd-server` resource to be a LoadBalancer.
         `kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'`
 
-    2. Run the following to ensure the external IP is created. This command will outpuit only the exetrnal IP of the `argocd-server`.
+    2. Run the following to ensure the external IP is created. This command will output only the exetrnal IP of the `argocd-server`.
         `kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
     3. Navigate to the assigned external IP. You should now see an ArgoCD login page.

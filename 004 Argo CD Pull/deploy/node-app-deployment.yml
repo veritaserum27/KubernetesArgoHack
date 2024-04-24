@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: <your-acr-name>.azurecr.io/app:<tag>
+        resources:
+          requests:
+            cpu: 125m
+            memory: 128Mi
+        ports:
+        - containerPort: 3000
