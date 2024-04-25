@@ -57,6 +57,6 @@ Specifically, we will do the following:
 
 9. Run the following:
 
-    `kubectl apply -f application.yaml`
+    `kubectl apply -f application.yml`
 
 10. At this point, the Argo CD dashboard should become active. Argo CD will be able to authenticate using SSH, pull from the repository, and apply the manifest files to the Kubernetes cluster.

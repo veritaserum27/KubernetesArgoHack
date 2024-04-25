@@ -50,19 +50,22 @@ One major advantage of ArgoCD over something like Flux is the built-in UI: ArgoC
     **Setting up a load-balancer**
 
     1. Run the following command to patch the `argocd-server` resource to be a LoadBalancer.
+    2. 
         `kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'`
 
-    2. Run the following to ensure the external IP is created. This command will output only the exetrnal IP of the `argocd-server`.
+    3. Run the following to ensure the external IP is created. This command will output only the exetrnal IP of the `argocd-server`.
+    4. 
         `kubectl get services --namespace argocd argocd-server --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
-    3. Navigate to the assigned external IP. You should now see an ArgoCD login page.
+    5. Navigate to the assigned external IP. You should now see an ArgoCD login page.
 
     **Setting up Port-forwarding**
 
     1. Run the following command to set up port-forwarding:
+    2. 
         `kubectl port-forward svc/argocd-server -n argocd 8080:443`
 
-    2. Navigate to `http://localhost:8080`. You should now see an ArgoCD login page.
+    3. Navigate to `http://localhost:8080`. You should now see an ArgoCD login page.
 
 5. Login to the ArgoCD page:
     1. Username: `admin`
