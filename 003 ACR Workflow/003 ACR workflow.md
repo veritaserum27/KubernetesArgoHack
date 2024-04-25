@@ -43,7 +43,7 @@ Having this container image in the ACR will allow us to pull it into the K8s clu
     - AZURE_TENANT_ID
     - AZURE_SUBSCRIPTION_ID
 
-    The values will be the output from Step 6.
+    You can find these values in the Azure Portal, under App Registrations.
 
 8. In the Github Workflow, replace the following values:
     - AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
