@@ -20,7 +20,7 @@ Specifically, we will do the following:
 ## Steps
 
 1. Generate an SSH key pair. You can use the `ssh-keygen` command to generate the key pair.
-2. Add the `rsa.pub` Public Key to the Github Repo: Settings > Security > Deploy Keys.
+2. Add the `rsa.pub` Public Key to the Github Repo: Settings > Security > Deploy Keys. Make sure to give it write access, since we'll use that in a later step.
 3. Now, we need to add a Kubernetes secret in the  `argocd` namespace. (If you installed Argo CD in a different namespace, use that namespace instead.) Run the following:
 
     `awk '{printf "%s\\n", $0}' ~/.ssh/id_rsa > ~/formatted_key.txt` 
@@ -33,7 +33,7 @@ Specifically, we will do the following:
 
 4. We need to convert the key to a base64 encoding. This can be done with:
 
-    `cat ~/formatted_key.txt | base64 -w 0`
+    `cat ~/formatted_key.txt | base64`
 
     Or, for powershell:
 
@@ -60,3 +60,5 @@ Specifically, we will do the following:
     `kubectl apply -f application.yml`
 
 10. At this point, the Argo CD dashboard should become active. Argo CD will be able to authenticate using SSH, pull from the repository, and apply the manifest files to the Kubernetes cluster.
+
+11. Now, in `deploy/node-app-deploymeny.yml`, rename the image name to the one from your ACR. Commit this change and watch Argo correctly deploy the node-app.

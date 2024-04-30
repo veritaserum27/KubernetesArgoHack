@@ -22,34 +22,49 @@ Having this container image in the ACR will allow us to pull it into the K8s clu
 
     `az ad app create --display-name ArgoCDHackApp`
 
-    The JSON output from this has an `appId`, which we will use in the next step.
+    This command will output JSON with an appId that is your client-id. Save the value to use as the AZURE_CLIENT_ID GitHub secret later.
 
-5. Run the  following to create a service principal. Use the same `appId` as in the output from the previous step. 
+5. Create a service principal with the following command:
 
     `az ad sp create --id $appId`
 
-    The JSON output from this has an `objectId` we will be using in the next step. 
+    This command generates JSON output with a different `objectId` and will be used in the next step. The new objectId is the `assignee-object-id`.
 
-6. Run the following to create a new role assignment. We will be giving the workflow `Contributor` access:
+    Copy the `appOwnerTenantId` to use as a GitHub secret for `AZURE_TENANT_ID` later.
 
-    `az role assignment create --role contributor --subscription $subscriptionId --assignee-object-id  $assigneeObjectId --assignee-principal-type ServicePrincipal --scope /subscriptions/$subscriptionId`
+6. Create a new role assignment with the following command:
 
-    Replace the `$subscriptionId` with yours (in two places!). The `$assigneeObjectId` is the `objectId` from the previous step.
+    `az role assignment create --role contributor --subscription $subscriptionId --assignee-object-id  $assigneeObjectId --scope /subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Web/sites/ --assignee-principal-type ServicePrincipal`
 
-    This will output the `clientId`, `subscriptionId` and `tenantId`, all of which we will use later.
+    Replace `$subscriptionId` with your subscription ID, `$resourceGroupName` with your resource group name, and `$assigneeObjectId` with the generated `assignee-object-id`.
 
-7. In Github: Go to Settings > Environment and Variables > Secrets. We will add the following three secrets:
-    - AZURE_CLIENT_ID
-    - AZURE_TENANT_ID
+7. Rename `credential.sample.json` to `credential.json`, and replace the following values:
+
+    1. name: `"ANYNAME"`
+    2. subject: `"repo:<username>/KubernetesArgoHack:ref:refs/heads/main"`
+
+    and then run the folowing:
+
+    `az ad app federated-credential create --id <APPLICATION-OBJECT-ID> --parameters credential.json`
+
+    To give the app federated credentials. If this doesn't work, we can also run this in Azure portal.
+
+8. We need to give the application access to ACR. In Portal, go to `App Registrations`, and copy the Application ID. Then run the following:
+
+    `az role assignment create --assignee <appID> --role Contributor --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group>`
+
+    Replace `<appID>` and `<resource-group>`.
+
+9. In Github: Go to Settings > Security > Secrets and variables > Actions > New repository secret. We will add the following three secrets:
+    - AZURE_CLIENT_ID (From Step 4)
+    - AZURE_TENANT_ID (From Step 5)
     - AZURE_SUBSCRIPTION_ID
 
-    You can find these values in the Azure Portal, under App Registrations.
-
-8. In the Github Workflow, replace the following values:
+10. In the Github Workflow, replace the following values:
     - AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
     - CONTAINER_NAME: "your-container-name"
     - RESOURCE_GROUP: "your-resource-group"
 
     The Github workflow now has the information it needs to build an image and push it to ACR. However, we still have no image! That's a problem. We will deploy a very simple Node app with a Dockerfile.
 
-9. Copy all the contents of the `app` folder into the root of the repository. This way, the Github Actions workflow can build the Docker container and run it.
+11. Copy all the contents of the `app` folder into the root of the repository. This way, the Github Actions workflow can build the Docker container and run it.
