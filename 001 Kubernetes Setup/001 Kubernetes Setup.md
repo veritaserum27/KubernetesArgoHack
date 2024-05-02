@@ -2,22 +2,20 @@
 
 ## Explanation
 
-The Bicep script in this folder, [infrastructure-deploy.bicep](./infrastructure-deploy.bicep) does the following:
-
-1. Sets up an Azure Container registry.
-2. Sets up an Azure Kubernetes cluster.
-3. Sets up pull authorization for the ACR in the AKS Cluster.
+1. Set up an Azure Container registry.
+2. Set up an Azure Kubernetes cluster.
+3. Set up pull authorization for the ACR in the AKS Cluster.
 
 This should be all the Azure resources you need for the rest of this hack.
 
 ## Steps
 
-To deploy the infrastructure-deploy.bicep script in the repository, follow these steps:
+Follow these steps:
 
 1. Open the command prompt or terminal.
 2. Navigate to the directory where the script is located.
 3. Run `az login` and make sure you're in the right subscription.
-4. Run the following command to create a resource group:
+4. Run the following commands:
 
     ```bash
     az group create --location eastus --name <resource-group-name>
